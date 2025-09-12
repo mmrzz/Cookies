@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { CookieIcon, Search } from "lucide-react";
 import { Kurale, Manuale } from "next/font/google";
@@ -12,8 +13,15 @@ const kurale = Kurale({
 function Navbar() {
 	const [menuState, setMenuState] = useState<boolean>(false);
 	const [isSearching, setIsSearching] = useState<boolean>(false);
-	const dropdownRef = useRef<HTMLElement | null>(null);
+	const dropdownRef = useRef<HTMLDivElement | null>(null);
 	const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+
+	const pathname = usePathname();
+
+	useEffect(() => {
+		setMenuState(false);
+		setIsSearching(false);
+	}, [pathname]);
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -50,7 +58,7 @@ function Navbar() {
 		: " ";
 
 	return (
-		<header className='sticky top-0 sm:top-8 sm:mx-10 lg:mx-20'>
+		<header className='sticky top-0 sm:top-8 sm:mx-10 lg:mx-20 mb-8'>
 			<div className='h-16 text-background backdrop-blur-sm flex flex-row justify-between align-center sm:gap-2'>
 				<div className='px-2 md:p-5 py-0 bg-slate-200/40 backdrop-blur-xs grid place-content-center sm:rounded-3xl'>
 					<Link
@@ -71,12 +79,12 @@ function Navbar() {
 					</button>
 				</div>
 				<div className='hidden sm:flex px-5 items-center justify-between flex-grow-1 bg-slate-200/40 backdrop-blur-xs sm:rounded-3xl'>
-					<nav aria-label='main-nav-desktop' className=''>
-						<ul className='flex flex-row pr-5 gap-5 justify-center text-lg md:text-2xl'>
+					<nav aria-label='main-nav-desktop'>
+						<ul className='flex flex-row pl-5 gap-8 justify-center text-lg md:text-2xl'>
 							<li className='focus:text-slate-800'>
 								<Link
 									href={"/"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-2.5 
+									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
 									after:translate-y-1.5 after:opacity-30">
 									Home
 								</Link>
@@ -84,23 +92,23 @@ function Navbar() {
 							<li>
 								<Link
 									href={"/categories"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-2.5 
+									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
 									after:translate-y-1.5 after:opacity-30">
 									Categories
 								</Link>
 							</li>
 							<li>
 								<Link
-									href={"/ingredients"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-2.5 after:translate-y-1.5 after:opacity-30">
-									Ingredients
+									href={"/cuisines"}
+									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 after:translate-y-1.5 after:opacity-30">
+									Cuisines
 								</Link>
 							</li>
 							<li>
 								<Link
-									href={"/areas"}
+									href={"/custimize"}
 									className='hover:underline'>
-									Areas
+									Custimize
 								</Link>
 							</li>
 						</ul>
@@ -116,7 +124,9 @@ function Navbar() {
 							/>
 							<button
 								onClick={() => setIsSearching(!isSearching)}
-								className='focus:outline-none focus:scale-110'>
+								className={`focus:outline-none ${
+									isSearching ? "scale-125" : ""
+								}`}>
 								<Search />
 							</button>
 						</div>
@@ -126,20 +136,22 @@ function Navbar() {
 					</div>
 				</div>
 			</div>
-			{menuState && (
-				<nav
-					aria-label='main-nav-mobile'
-					ref={dropdownRef}
-					className='fixed w-full transiton-all origin-top text-background right-0 top-16 bg-slate-50/30 backdrop-blur-sm p-4 rounded-b-sm sm:hidden'>
-					<div className='h-8 w-1/2 mb-2 border-b-2'>
-						<label htmlFor='search' className='sr-only'>
-							Search:
-						</label>
-						<input
-							className='px-2 py-1 text-sm placeholder:text-sm focus:outline-none block'
-							placeholder='Search Recipes ...'
-						/>
-					</div>
+			{/* drop down menu for mobile */}
+			<div
+				ref={dropdownRef}
+				className={`fixed w-full text-background right-0 top-16 bg-slate-50/30 backdrop-blur-sm p-4 rounded-b-sm sm:hidden transition-all duration-300 ease-out ${
+					menuState ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+				}`}>
+				<div className='h-8 w-1/2 mb-2 border-b-2'>
+					<label htmlFor='search' className='sr-only'>
+						Search:
+					</label>
+					<input
+						className='px-2 py-1 text-sm placeholder:text-sm focus:outline-none block'
+						placeholder='Search Recipes ...'
+					/>
+				</div>
+				<nav aria-label='main-nav-mobile'>
 					<ul className='flex flex-col gap-2 justify-center'>
 						<li className='focus:text-slate-800'>
 							<Link href={"/"}>Home</Link>
@@ -148,26 +160,28 @@ function Navbar() {
 							<Link href={"/categories"}>Categories</Link>
 						</li>
 						<li>
-							<Link href={"/ingredients"}>Ingredients</Link>
+							<Link href={"/cuisines"}>Cuisines</Link>
 						</li>
 						<li>
-							<Link href={"/areas"}>Areas</Link>
+							<Link href={"/custimize"}>Custimize</Link>
 						</li>
 					</ul>
 				</nav>
-			)}
-			{isSearching && (
-				<div className='h-10 w-sm px-3 m-auto mt-4 hidden sm:max-[1230px]:block rounded-3xl bg-slate-100/300 backdrop-blur-xs border-foreground border-1'>
-					<label htmlFor='search' className='sr-only'>
-						Search:
-					</label>
-					<input
-						autoFocus
-						className='h-full py-1 text-lg placeholder:text-lg focus:outline-none block'
-						placeholder='Search Recipes ...'
-					/>
-				</div>
-			)}
+			</div>
+			{/* search bar outside of nav */}
+			<div
+				className={`h-10 w-sm px-3 m-auto mt-4 hidden sm:max-[1230px]:block rounded-3xl bg-slate-100/30 text-background backdrop-blur-xs border-foreground border-1 transition-all duration-500 ease-out ${
+					isSearching ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+				}`}>
+				<label htmlFor='search' className='sr-only'>
+					Search:
+				</label>
+				<input
+					autoFocus
+					className='h-full py-1 text-lg placeholder:text-lg focus:outline-none block'
+					placeholder='Search Recipes ...'
+				/>
+			</div>
 		</header>
 	);
 }
