@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { GetStaticProps } from "next";
 import Ingredient from "../ingredient";
-import { fetchAllMealTypes, fetchRandomMeal } from "@/app/lib/data";
+import { fetchRandomMeal } from "@/app/lib/data";
 import { Rochester } from "next/font/google";
 import Categories from "@/app/categories/page";
 import { Timer, Users, CookingPot, Factory, ChefHat } from "lucide-react";
