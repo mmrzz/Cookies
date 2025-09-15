@@ -1,15 +1,14 @@
-import Image from "next/image";
+import RandomMealHero from "./UI/components/random-meal";
+import { Suspense } from "react";
 
-export default async function Home() {
+async function Home() {
 	return (
-		<main className='font-sans flex flex-col items-center min-h-400 p-8 pb-20 sm:p-20'>
-			<Image
-				src='/experimental.jpg'
-				alt='memem'
-				width={3510}
-				height={5252}
-				className='w-full'
-			/>
+		<main className='flex flex-col min-h-[500vh] m-6 lg:mt-14 lg:mx-20 items-center'>
+			<Suspense fallback={<p>is Loading...</p>}>
+				<RandomMealHero />
+			</Suspense>
 		</main>
 	);
 }
+
+export default Home;

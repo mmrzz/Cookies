@@ -20,7 +20,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body
-				className={`${roboto.className} antialiased tracking-tighter`}>
+				className={`${roboto.className} antialiased tracking-tighter text-foreground`}>
 				<Navbar />
 				{children}
 			</body>

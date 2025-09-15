@@ -58,9 +58,9 @@ function Navbar() {
 		: " ";
 
 	return (
-		<header className='sticky top-0 sm:top-8 sm:mx-10 lg:mx-20 mb-8'>
-			<div className='h-16 text-background backdrop-blur-sm flex flex-row justify-between align-center sm:gap-2'>
-				<div className='px-2 md:p-5 py-0 bg-slate-200/40 backdrop-blur-xs grid place-content-center sm:rounded-3xl'>
+		<header className='sticky top-0 lg:top-8 lg:mx-16 z-10'>
+			<div className='h-16 text-background flex flex-row justify-between align-center lg:gap-2'>
+				<div className='px-2 py-0 bg-slate-200/40 backdrop-blur-xs grid place-content-center lg:rounded-3xl'>
 					<Link
 						href={"/"}
 						className='flex flex-row gap-2 flex-nowrap items-center justify-center'>
@@ -70,7 +70,7 @@ function Navbar() {
 						</p>
 					</Link>
 				</div>
-				<div className='sm:hidden flex items-center px-2 justify-end flex-grow-1 bg-slate-200/40 backdrop-blur-xs sm:rounded-3xl'>
+				<div className='lg:hidden flex px-2 items-center justify-end flex-grow-1 bg-slate-200/40 backdrop-blur-xs lg:rounded-3xl'>
 					<button
 						onClick={() => setMenuState(!menuState)}
 						className={toggleMenuButton}
@@ -78,7 +78,7 @@ function Navbar() {
 						<div className="h-[3px] w-8 px-4 rounded bg-background transition-all duration-500 before:absolute before:h-[3px] before:w-5 before:-translate-x-1 before:-translate-y-2 before:rounded before:bg-background before:transition-all before:duration-500 before:content-[''] after:absolute after:h-[3px] after:w-5 after:-translate-x-4 after:translate-y-2 after:rounded after:bg-background after:transition-all after:duration-500 after:content-['']"></div>
 					</button>
 				</div>
-				<div className='hidden sm:flex px-5 items-center justify-between flex-grow-1 bg-slate-200/40 backdrop-blur-xs sm:rounded-3xl'>
+				<div className='hidden lg:flex px-5 items-center justify-between flex-grow-1 bg-slate-200/40 backdrop-blur-xs lg:rounded-3xl'>
 					<nav aria-label='main-nav-desktop'>
 						<ul className='flex flex-row pl-5 gap-8 justify-center text-lg md:text-2xl'>
 							<li className='focus:text-slate-800'>
@@ -137,51 +137,57 @@ function Navbar() {
 				</div>
 			</div>
 			{/* drop down menu for mobile */}
-			<div
-				ref={dropdownRef}
-				className={`fixed w-full text-background right-0 top-16 bg-slate-50/30 backdrop-blur-sm p-4 rounded-b-sm sm:hidden transition-all duration-300 ease-out ${
-					menuState ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-				}`}>
-				<div className='h-8 w-1/2 mb-2 border-b-2'>
+			{menuState && (
+				<div
+					ref={dropdownRef}
+					className={`fixed w-full text-background right-0 top-16 bg-slate-50/30 backdrop-blur-sm p-4 rounded-b-sm lg:hidden transition-all duration-300 ease-out ${
+						menuState ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+					}`}>
+					<div className='h-8 w-1/2 mb-2 border-b-2'>
+						<label htmlFor='search' className='sr-only'>
+							Search:
+						</label>
+						<input
+							className='px-2 py-1 text-sm w-full placeholder:text-sm focus:outline-none block'
+							placeholder='Search Recipes ...'
+						/>
+					</div>
+					<nav aria-label='main-nav-mobile'>
+						<ul className='flex flex-col gap-2 justify-center'>
+							<li className='focus:text-slate-800'>
+								<Link href={"/"}>Home</Link>
+							</li>
+							<li>
+								<Link href={"/categories"}>Categories</Link>
+							</li>
+							<li>
+								<Link href={"/cuisines"}>Cuisines</Link>
+							</li>
+							<li>
+								<Link href={"/custimize"}>Custimize</Link>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			)}
+			{/* search bar outside of nav */}
+			{isSearching && (
+				<div
+					className={`h-10 w-sm px-3 m-auto mt-4 hidden lg:max-[1230px]:block rounded-3xl bg-slate-100/30 text-background backdrop-blur-xs border-foreground border-1 transition-all duration-500 ease-out ${
+						isSearching
+							? "max-h-60 opacity-100"
+							: "max-h-0 opacity-0"
+					}`}>
 					<label htmlFor='search' className='sr-only'>
 						Search:
 					</label>
 					<input
-						className='px-2 py-1 text-sm placeholder:text-sm focus:outline-none block'
+						autoFocus
+						className='h-full py-1 text-lg placeholder:text-lg focus:outline-none block'
 						placeholder='Search Recipes ...'
 					/>
 				</div>
-				<nav aria-label='main-nav-mobile'>
-					<ul className='flex flex-col gap-2 justify-center'>
-						<li className='focus:text-slate-800'>
-							<Link href={"/"}>Home</Link>
-						</li>
-						<li>
-							<Link href={"/categories"}>Categories</Link>
-						</li>
-						<li>
-							<Link href={"/cuisines"}>Cuisines</Link>
-						</li>
-						<li>
-							<Link href={"/custimize"}>Custimize</Link>
-						</li>
-					</ul>
-				</nav>
-			</div>
-			{/* search bar outside of nav */}
-			<div
-				className={`h-10 w-sm px-3 m-auto mt-4 hidden sm:max-[1230px]:block rounded-3xl bg-slate-100/30 text-background backdrop-blur-xs border-foreground border-1 transition-all duration-500 ease-out ${
-					isSearching ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-				}`}>
-				<label htmlFor='search' className='sr-only'>
-					Search:
-				</label>
-				<input
-					autoFocus
-					className='h-full py-1 text-lg placeholder:text-lg focus:outline-none block'
-					placeholder='Search Recipes ...'
-				/>
-			</div>
+			)}
 		</header>
 	);
 }

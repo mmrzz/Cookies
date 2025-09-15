@@ -15,8 +15,13 @@ export const fetchMealById = async (id: string) => {
 
 export const fetchRandomMeal = async () => {
 	try {
-		const randomId = Math.floor(Math.random() * 50 + 1).toString();
-		const res = await fetch(`https://dummyjson.com/recipes/${randomId}`);
+		const today = new Date().toISOString().split("T")[0];
+		const seed = [...today].reduce((acc, c) => acc + c.charCodeAt(0), 0);
+		const randomId = (seed + 1) % 50; //this make sures that all users get the same recipe as the recipe of the day
+
+		const res = await fetch(`https://dummyjson.com/recipes/${randomId}`, {
+			cache: "force-cache",
+		});
 
 		const recipe: Recipe = await res.json();
 
