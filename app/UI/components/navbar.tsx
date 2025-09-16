@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { CookieIcon, Search } from "lucide-react";
-import { Kurale, Manuale } from "next/font/google";
+import { Kurale } from "next/font/google";
 
 const kurale = Kurale({
 	subsets: ["latin"],
@@ -32,7 +32,7 @@ function Navbar() {
 				!dropdownRef.current.contains(event.target as Node) &&
 				!menuButtonRef.current.contains(event.target as Node)
 			) {
-				setMenuState((c) => false);
+				setMenuState(() => false);
 				console.log("fired event", menuState);
 			}
 		}
@@ -45,13 +45,6 @@ function Navbar() {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [menuState]);
-
-	const open = () => {
-		if (!menuState) {
-			setMenuState((c) => true);
-			console.log("fired click", menuState);
-		}
-	};
 
 	const toggleMenuButton = menuState
 		? "[&>div::before]:translate-y-0 [&>div::before]:-translate-x-[8.5px] [&>div::before]:w-6 [&>div::before]:-rotate-45 [&>div::after]:w-6 [&>div::after]:translate-y-0 [&>div::after]:-translate-x-[8.5px] [&>div::after]:rotate-45 [&>div]:bg-transparent"

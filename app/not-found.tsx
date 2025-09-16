@@ -14,7 +14,7 @@ function fourOfour() {
 			<div className='flex flex-row items-center gap-2 flex-nowrap bg-background'>
 				<p className='text-3xl px-2 border-r-2'>404</p>
 				<p className='text-sm'>
-					We are sorry, But this page doesn't exist.
+					We are sorry, But this page does not exist.
 				</p>
 			</div>
 			<Link href={"/"} className='underline text-slate-300 bg-black'>

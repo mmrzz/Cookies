@@ -115,7 +115,7 @@ export const fetchAllMealTypes = async () => {
 
 		const allRecipes: Recipes = await res.json();
 
-		let mealTypes = new Set<string>([]);
+		const mealTypes = new Set<string>([]);
 		allRecipes.recipes.forEach((recipe) => {
 			recipe.mealType.forEach((type) => {
 				mealTypes.add(type === "Snacks" ? "Snack" : type); //there is the problem in the server and we have Snack an Snacks both in the MealTypes.
@@ -135,7 +135,7 @@ export const fetchAllCuisines = async () => {
 
 		const allRecipes: Recipes = await res.json();
 
-		let cuisines = new Set<string>([]);
+		const cuisines = new Set<string>([]);
 
 		allRecipes.recipes.forEach((recipe) => {
 			cuisines.add(recipe.cuisine);
