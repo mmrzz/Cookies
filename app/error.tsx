@@ -19,11 +19,12 @@ export default function Error({
 		<main className='flex flex-col items-center mt-20'>
 			<Image
 				src='/error/error-white.png'
-				alt='memem'
+				alt='error picture'
 				width={200}
 				height={200}
+				className='bg-black rounded-4xl p-3'
 			/>
-			<div className='flex flex-col items-center gap-2 flex-nowrap mb-4'>
+			<div className='flex flex-col items-center gap-2 px-3 flex-nowrap mb-4 bg-black'>
 				<h2>They are out to get us, We will fix it.</h2>
 				<button
 					className='p-2 bg-foreground rounded-lg text-background cursor-pointer'
@@ -31,7 +32,7 @@ export default function Error({
 					Try again
 				</button>
 			</div>
-			<Link href={"/"} className='underline text-slate-300'>
+			<Link href={"/"} className='underline text-slate-300 bg-black'>
 				you can go Home
 			</Link>
 		</main>

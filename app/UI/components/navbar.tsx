@@ -84,7 +84,7 @@ function Navbar() {
 							<li className='focus:text-slate-800'>
 								<Link
 									href={"/"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
+									className="hover:underline hover:text-purple-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
 									after:translate-y-1.5 after:opacity-30">
 									Home
 								</Link>
@@ -92,7 +92,7 @@ function Navbar() {
 							<li>
 								<Link
 									href={"/categories"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
+									className="hover:underline hover:text-green-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
 									after:translate-y-1.5 after:opacity-30">
 									Categories
 								</Link>
@@ -100,14 +100,14 @@ function Navbar() {
 							<li>
 								<Link
 									href={"/cuisines"}
-									className="hover:underline after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 after:translate-y-1.5 after:opacity-30">
+									className="hover:underline hover:text-red-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 after:translate-y-1.5 after:opacity-30">
 									Cuisines
 								</Link>
 							</li>
 							<li>
 								<Link
 									href={"/custimize"}
-									className='hover:underline'>
+									className='hover:underline hover:text-blue-500'>
 									Custimize
 								</Link>
 							</li>

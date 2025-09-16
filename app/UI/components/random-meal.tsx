@@ -24,7 +24,6 @@ async function RandomMealHero() {
 	const recipe = await fetchRandomMeal();
 
 	const mealType = categories.find((cat) => cat.name === recipe.mealType[0]);
-	console.log(mealType);
 
 	return (
 		<div className='w-full h-[calc(100vh)] max-h-fit p-0 overflow-auto flex flex-col items-center sm:flex-row sm:items-stretch max-w-6xl text-foreground bg-linear-to-l from-purple-600 to-purple-500 from-10% to-66% rounded-4xl'>
@@ -89,7 +88,7 @@ async function RandomMealHero() {
 							</p>
 						</div>
 					</div>
-					<div className='flex-2 flex items-center gap-2 bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
+					<div className='flex-2 flex gap-2 bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
 						<Factory className='w-6 h-auto' />
 						<div className='flex-1 flex flex-col'>
 							<h3>calories per serving:</h3>
@@ -105,14 +104,14 @@ async function RandomMealHero() {
 						<CookingPot className='w-6 h-auto' />
 						<h3 className='text-lg'>ingredients:</h3>
 					</div>
-					<div className='ml-2 px-[5%] pb-1 flex gap-2 overflow-x-auto mask-r-from-95% mask-l-from-95% [&::-webkit-scrollbar]:h-0.5 [&:hover::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-foreground'>
+					<div className='ml-2 px-[5%] pb-1 flex gap-2 overflow-x-auto mask-r-from-95% mask-l-from-95% [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-foreground/50'>
 						{recipe.ingredients.map((ingredient, id) => (
 							<Ingredient ingredient={ingredient} key={id} />
 						))}
 					</div>
 				</div>
 				{/*instructions*/}
-				<div className='flex-1 mx-2 sm:mx-8 lg:mr-16 mb-2 lg:mb-16 flex flex-col justify-strat bg-purple-300/20 p-2  rounded-xl'>
+				<div className='flex-1 mx-2 sm:mx-8 lg:mr-16 flex flex-col justify-strat bg-purple-300/20 p-2  rounded-xl'>
 					<div className='flex gap-2'>
 						<ChefHat className='w-6 h-auto' />
 						<h3 className='text-lg'>instructions:</h3>
@@ -124,6 +123,13 @@ async function RandomMealHero() {
 							</p>
 						))}
 					</div>
+				</div>
+				{/*reviews*/}
+				<div className='h-4 mx-auto flex items-center mt-2 mb-2 lg:mb-10'>
+					<p className='text-xs border-r-1 pr-2'>
+						{recipe.reviewCount} reviews
+					</p>
+					<p className='text-xs px-2'>{recipe.rating}</p>
 				</div>
 			</div>
 		</div>
