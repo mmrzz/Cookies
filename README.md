@@ -30,4 +30,4 @@ Here’s what the project currently looks like:
 ## 🚀 Live Demo
 
 Deployed with Vercel:  
-👉 [Recipe Page on Vercel](https://your-vercel-link-here.vercel.app)
+👉 [Recipe Page on Vercel](https://cookies-recipe.vercel.app/)
