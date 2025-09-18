@@ -22,7 +22,7 @@
 }
 
 body {
-	background-image: url("../public/cartoon-background.png");
+	background-image: url("../public/background/cartoon-background.png");
 	background-attachment: fixed;
 	background-repeat: repeat;
 }

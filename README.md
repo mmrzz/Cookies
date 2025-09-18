@@ -9,7 +9,7 @@ I switched from using TheMealDB API to a **dummy JSON source** so I can focus mo
 
 Here’s what the project currently looks like:
 
-![Recipe Page Screenshot](./public/preview.png)
+![Recipe Page Screenshot](./public/readme/preview.png)
 
 ## 📝 Status
 

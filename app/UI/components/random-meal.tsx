@@ -2,10 +2,11 @@ import Image from "next/image";
 import { GetStaticProps } from "next";
 import Ingredient from "../ingredient";
 import { fetchRandomMeal } from "@/app/lib/data";
-import { Rochester } from "next/font/google";
+
 import { Timer, Users, CookingPot, Factory, ChefHat } from "lucide-react";
 import { categories } from "../mealtypeIcons";
 
+import { Rochester } from "next/font/google";
 const rochester = Rochester({
 	subsets: ["latin"],
 	weight: "400",
@@ -26,8 +27,10 @@ async function RandomMealHero() {
 	const mealType = categories.find((cat) => cat.name === recipe.mealType[0]);
 
 	return (
-		<div className='w-full h-[calc(100vh)] max-h-fit p-0 overflow-auto flex flex-col items-center sm:flex-row sm:items-stretch max-w-6xl text-foreground bg-linear-to-l from-purple-600 to-purple-500 from-10% to-66% rounded-4xl'>
-			<div className='flex justify-center flex-shrink-1 items-center w-full h-1/4 sm:h-full sm:w-2/5 overflow-auto'>
+		<section
+			id='hero'
+			className='w-full h-screen max-h-fit min-h-fit p-0 flex flex-col overflow-clip items-center sm:flex-row sm:items-stretch max-w-6xl text-foreground bg-linear-to-l from-purple-700 to-purple-500 from-10% to-66% rounded-4xl'>
+			<div className='flex justify-center flex-shrink-1 items-center w-full h-1/4 sm:h-full sm:w-2/5 overflow-clip'>
 				<Image
 					src={recipe.image}
 					alt={recipe.name}
@@ -49,14 +52,14 @@ async function RandomMealHero() {
 						title={recipe.mealType[0]}
 						className='no-underline cursor-default'>
 						{mealType?.icon && (
-							<mealType.icon className='w-6 sm:w-8 h-auto' />
+							<mealType.icon className='w-8 sm:w-10 h-auto' />
 						)}
 					</abbr>
-					<h2 className='text-xl'>{recipe.name}</h2>
+					<h2 className='text-2xl'>{recipe.name}</h2>
 				</div>
 				{/* details about the food */}
 				<div className='mx-2 sm:mx-8 lg:mr-16 flex gap-2 min-h-24 flex-wrap'>
-					<div className='flex-1 flex gap-2 bg-purple-300/20 shadow-xs px-2 py-4 rounded-2xl'>
+					<div className='flex-1 flex gap-2 bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
 						<Timer className='w-6 h-auto' />
 						<div className='flex-1 flex flex-col'>
 							<h3>time:</h3>
@@ -132,7 +135,7 @@ async function RandomMealHero() {
 					<p className='text-xs px-2'>{recipe.rating}</p>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
 
