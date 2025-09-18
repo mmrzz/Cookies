@@ -40,7 +40,7 @@ async function RecipesList({
 			{isEmpty ? (
 				<div className='flex mb-96 my-auto flex-col w-2/3 border-t-2 border-b-2 border-white bg-black/80 backdrop-blur-[2px] items-center justify-center py-4 mt-24'>
 					<h2 className='text-2xl font-bold text-center'>
-						No recipes found
+						No recipes found for {query}
 					</h2>
 					<p className='text-center text-gray-600 mt-2'>
 						Try adjusting your search query
@@ -66,10 +66,16 @@ async function RecipesList({
 							height={50}
 							className='flex sm:hidden'
 						/>
-						<h2
-							className={`${rochester.className} text-3xl px-4 text-nowrap`}>
-							{query ? "Results" : "Feeling Lucky"}
-						</h2>
+						{query ? (
+							<h2 className='text-3xl px-4 text-nowrap'>
+								Results for {query}
+							</h2>
+						) : (
+							<h2
+								className={`${rochester.className} text-3xl px-4 text-nowrap`}>
+								Feeling Lucky
+							</h2>
+						)}
 						<Image
 							src={"./horizantal-rule/right-horizantal-rule.svg"}
 							alt='hoorizantal-rule'

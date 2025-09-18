@@ -4,7 +4,7 @@ import Ingredient from "../ingredient";
 import { fetchRandomMeal } from "@/app/lib/data";
 
 import { Timer, Users, CookingPot, Factory, ChefHat } from "lucide-react";
-import { categories } from "../mealtypeIcons";
+import MealTypeIcon from "../mealtypeIcons";
 
 import { Rochester } from "next/font/google";
 const rochester = Rochester({
@@ -14,8 +14,6 @@ const rochester = Rochester({
 
 async function RandomMealHero() {
 	const recipe = await fetchRandomMeal();
-
-	const mealType = categories.find((cat) => cat.name === recipe.mealType[0]);
 
 	return (
 		<section
@@ -42,9 +40,10 @@ async function RandomMealHero() {
 					<abbr
 						title={recipe.mealType[0]}
 						className='no-underline cursor-default'>
-						{mealType?.icon && (
-							<mealType.icon className='w-8 sm:w-10 h-auto' />
-						)}
+						<MealTypeIcon
+							mealType={recipe.mealType[0]}
+							className='w-8 sm:w-10 h-auto'
+						/>
 					</abbr>
 					<h2 className='text-2xl'>{recipe.name}</h2>
 				</div>

@@ -4,20 +4,19 @@ import Link from "next/link";
 import { Recipe } from "../lib/types";
 import Ingredient from "./ingredient";
 
-import { categories } from "./mealtypeIcons";
 import { Factory, Users, Timer, CookingPot } from "lucide-react";
+import MealTypeIcon from "./mealtypeIcons";
 
 function RecipeRender({ recipe, color }: { recipe: Recipe; color: string }) {
-	const mealType = categories.find((cat) => cat.name === recipe.mealType[0]);
-
 	return (
 		<div className='flex flex-col justify-center w-full items-center'>
 			<abbr
 				title={recipe.mealType[0]}
 				className='no-underline cursor-default bg-black rounded-full'>
-				{mealType?.icon && (
-					<mealType.icon className='w-[21vw] md:w-[11vw] lg:w-[9vw] h-auto' />
-				)}
+				<MealTypeIcon
+					mealType={recipe.mealType[0]}
+					className='w-[20vw] md:w-[10vw] lg:w-[8vw] h-auto'
+				/>
 			</abbr>
 			<div className='relative w-full h-[80vw] md:h-[40vw] lg:h-[35vw] -mt-[11vw] md:-mt-[6vw] lg:-mt-[5vw]'>
 				<div className='mask-[url("/mask-recipe-image.svg")] mask-no-repeat mask-center flex-1 mask-contain w-full h-full drop-shadow-xl'>
