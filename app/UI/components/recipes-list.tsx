@@ -1,70 +1,114 @@
+import Image from "next/image";
+
 import { fetchAllMeals } from "@/app/lib/data";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Pagination from "../pagination";
 
 import RecipeRender from "../recipe";
 
-async function RecipesList({ currentPage }: { currentPage: number }) {
-	const recipes = await fetchAllMeals(currentPage);
+import { Rochester } from "next/font/google";
+const rochester = Rochester({
+	subsets: ["latin"],
+	weight: "400",
+});
 
-	const totalPages = Math.ceil(recipes.total / recipes.limit);
-	const hasNextPage = currentPage < totalPages;
-	const hasPrevPage = currentPage > 1;
+async function RecipesList({
+	currentPage,
+	query,
+}: {
+	currentPage: number;
+	query: string;
+}) {
+	const recipes = await fetchAllMeals(currentPage, query);
+
+	const totalPages = Math.ceil(recipes.total / 10);
+	const isEmpty = !recipes.recipes.length;
+
+	const bgColors = [
+		"bg-linear-to-b from-purple-700 from-0% to-purple-500 to-70%",
+
+		"bg-linear-to-b from-green-700 from-0% to-green-500 to-70%",
+
+		"bg-linear-to-b from-red-700 from-0% to-red-500 to-70%",
+
+		"bg-linear-to-b from-blue-700 from-0% to-blue-500 to-70%",
+	];
 
 	return (
-		<div className='w-full'>
-			<div className='grid grid-cols-1 md:grid-cols-2 w-full mt-8'>
-				{recipes.recipes.map((recipe) => (
-					<RecipeRender key={recipe.id} recipe={recipe} />
-				))}
-			</div>
-
-			{/* Pagination Controls */}
-			<div className='sticky bottom-0 left-0 w-full h-24 group'>
-				<div className='flex justify-evenly items-center gap-2 mt-8 mb-4 px-4 mx-auto sticky bottom-4 bg-slate-200/40 backdrop-blur-xs w-fit rounded-4xl text-background border-1 border-foreground/50 drop-shadow-2xl lg:opacity-0 lg:transition-opacity lg:duration-500 lg:group-hover:opacity-100 has-[p]:opacity-100'>
-					<Link
-						href={`/?page=${currentPage - 1}#recipe-list`}
-						className={`flex items-center justify-center gap-2 p-2 hover:opacity-70 ${
-							!hasPrevPage ? "opacity-50" : ""
-						}`}>
-						<ChevronLeft className='w-6 h-6' />
-					</Link>
-
-					{/* <div className='flex items-center gap-2'>
-					{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-						const pageNum =
-							Math.max(
-								1,
-								Math.min(totalPages - 4, currentPage - 2)
-							) + i;
-						if (pageNum > totalPages) return null;
-
-						return (
-							<Link
-								key={pageNum}
-								href={`/?page=${pageNum}#recipe-list`}
-								className={`px-3 py-2 rounded-lg transition-colors hover:opacity-70 ${
-									pageNum === currentPage
-										? "underline text-lg"
-										: ""
-								}`}>
-								{pageNum}
-							</Link>
-						);
-					})}
-				</div> */}
-					<p className='text-xl underline'>{currentPage}</p>
-
-					<Link
-						href={`/?page=${currentPage + 1}#recipe-list`}
-						className={`flex items-center justify-center gap-2 p-2 hover:opacity-70 ${
-							!hasNextPage ? "opacity-50" : ""
-						}`}>
-						<ChevronRight className='w-6 h-6' />
-					</Link>
+		<section
+			id='recipeList'
+			className='w-full flex flex-col items-center scroll-mt-24 relative -mx-4'>
+			{isEmpty ? (
+				<div className='flex mb-96 my-auto flex-col w-2/3 border-t-2 border-b-2 border-white bg-black/80 backdrop-blur-[2px] items-center justify-center py-4 mt-24'>
+					<h2 className='text-2xl font-bold text-center'>
+						No recipes found
+					</h2>
+					<p className='text-center text-gray-600 mt-2'>
+						Try adjusting your search query
+					</p>
 				</div>
-			</div>
-		</div>
+			) : (
+				<>
+					{/*a horizantal rule*/}
+					<div className='flex items-center mt-4 px-8 py-4 border-t-2 border-b-2 border-white bg-black/80 backdrop-blur-[2px]'>
+						<Image
+							src={"./horizantal-rule/left-horizantal-rule.svg"}
+							alt='hoorizantal-rule'
+							width={200}
+							height={50}
+							className='hidden sm:flex'
+						/>
+						<Image
+							src={
+								"./horizantal-rule/sm-left-horizantal-rule.svg"
+							}
+							alt='hoorizantal-rule'
+							width={50}
+							height={50}
+							className='flex sm:hidden'
+						/>
+						<h2
+							className={`${rochester.className} text-3xl px-4 text-nowrap`}>
+							{query ? "Results" : "Feeling Lucky"}
+						</h2>
+						<Image
+							src={"./horizantal-rule/right-horizantal-rule.svg"}
+							alt='hoorizantal-rule'
+							width={200}
+							height={50}
+							className='hidden sm:flex'
+						/>
+						<Image
+							src={
+								"./horizantal-rule/sm-right-horizantal-rule.svg"
+							}
+							alt='hoorizantal-rule'
+							width={50}
+							height={50}
+							className='flex sm:hidden'
+						/>
+					</div>
+					{/* recipe list */}
+					<div className='grid grid-cols-1 md:grid-cols-2 w-full mt-8'>
+						{recipes.recipes.map((recipe, i) => (
+							<RecipeRender
+								key={recipe.id}
+								recipe={recipe}
+								color={bgColors[i % 4]}
+							/>
+						))}
+					</div>
+
+					{/* Pagination Controls */}
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							query={query}
+						/>
+					)}
+				</>
+			)}
+		</section>
 	);
 }
 

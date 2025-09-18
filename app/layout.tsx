@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./UI/components/navbar";
+import Footer from "./UI/components/footer";
 
 const roboto = Roboto_Mono({
 	subsets: ["latin"],
@@ -18,11 +19,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
+		<html lang='en' className='scroll-smooth'>
 			<body
 				className={`${roboto.className} antialiased tracking-tighter text-foreground`}>
 				<Navbar />
 				{children}
+				<Footer />
 			</body>
 		</html>
 	);

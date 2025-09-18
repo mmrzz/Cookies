@@ -12,15 +12,6 @@ const rochester = Rochester({
 	weight: "400",
 });
 
-export const getStaticProps: GetStaticProps = async () => {
-	const recipe = await fetchRandomMeal();
-
-	return {
-		props: { item: recipe },
-		revalidate: 60 * 60 * 24, // 24 hours
-	};
-};
-
 async function RandomMealHero() {
 	const recipe = await fetchRandomMeal();
 

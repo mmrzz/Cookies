@@ -7,7 +7,7 @@ import Ingredient from "./ingredient";
 import { categories } from "./mealtypeIcons";
 import { Factory, Users, Timer, CookingPot } from "lucide-react";
 
-function RecipeRender({ recipe }: { recipe: Recipe }) {
+function RecipeRender({ recipe, color }: { recipe: Recipe; color: string }) {
 	const mealType = categories.find((cat) => cat.name === recipe.mealType[0]);
 
 	return (
@@ -29,7 +29,8 @@ function RecipeRender({ recipe }: { recipe: Recipe }) {
 					/>
 				</div>
 			</div>
-			<div className='flex flex-col -mt-[24vw] md:-mt-[14vw] lg:-mt-[10vw] pt-[24vw] md:pt-[14vw] lg:pt-[10vw] mb-6 px-4 bg-linear-to-tl from-purple-700 from-0% to-purple-500 to-40% h-fit w-[80vw] md:w-[40vw] lg:w-[35vw] rounded-b-4xl'>
+			<div
+				className={`flex flex-col -mt-[24vw] md:-mt-[14vw] lg:-mt-[10vw] pt-[24vw] md:pt-[14vw] lg:pt-[10vw] mb-6 px-4 ${color} h-fit w-[80vw] md:w-[40vw] lg:w-[35vw] rounded-b-4xl`}>
 				{/* food title */}
 				<div className='w-full mb-4 pt-2'>
 					<h2 className='text-xl text-center lg:text-2xl'>
@@ -38,7 +39,7 @@ function RecipeRender({ recipe }: { recipe: Recipe }) {
 				</div>
 				{/* details about the food */}
 				<div className='mx-2 sm:mx-8 mb-2 flex flex-col gap-2'>
-					<div className='flex gap-2 items-center bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
+					<div className='flex gap-2 items-center  bg-white/10 shadow-xs px-2 py-4 rounded-2xl'>
 						<Timer className='w-6 h-auto' />
 						<h3>time:</h3>
 						<p className='text-xs sm:text-sm opacity-70 text-wrap'>
@@ -56,7 +57,7 @@ function RecipeRender({ recipe }: { recipe: Recipe }) {
 							minutes
 						</p>
 					</div>
-					<div className='flex items-center gap-2 bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
+					<div className='flex items-center gap-2 bg-white/10 shadow-xs px-2 py-4 rounded-2xl'>
 						<Users className='w-6 h-auto' />
 
 						<h3 className='text-sm sm:text-[16px]'>servings:</h3>
@@ -65,7 +66,7 @@ function RecipeRender({ recipe }: { recipe: Recipe }) {
 							{recipe.servings === 1 ? "person" : "people"}
 						</p>
 					</div>
-					<div className='flex items-center gap-2 bg-purple-300/10 shadow-xs px-2 py-4 rounded-2xl'>
+					<div className='flex items-center gap-2 bg-white/10 shadow-xs px-2 py-4 rounded-2xl'>
 						<Factory className='w-6 h-auto' />
 						<h3>calories per serving:</h3>
 						<p className='text-xs sm:text-sm opacity-70'>
@@ -74,7 +75,7 @@ function RecipeRender({ recipe }: { recipe: Recipe }) {
 					</div>
 				</div>
 				{/* ingredients */}
-				<div className='mx-2 sm:mx-8 mb-2 flex flex-col justify-strat bg-purple-300/20 p-2  rounded-xl'>
+				<div className='mx-2 sm:mx-8 mb-2 flex flex-col justify-strat bg-white/10 p-2  rounded-xl'>
 					<div className='flex-1 flex gap-2'>
 						<CookingPot className='w-6 h-auto' />
 						<h3 className='text-lg'>ingredients:</h3>

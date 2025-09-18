@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useDebouncedCallback } from "use-debounce";
+
 import { CookieIcon, Search } from "lucide-react";
 import { Kurale } from "next/font/google";
 
@@ -10,17 +12,44 @@ const kurale = Kurale({
 	weight: "400",
 });
 
-function Navbar() {
+function NavbarContent() {
 	const [menuState, setMenuState] = useState<boolean>(false);
 	const [isSearching, setIsSearching] = useState<boolean>(false);
+
 	const dropdownRef = useRef<HTMLDivElement | null>(null);
 	const menuButtonRef = useRef<HTMLButtonElement | null>(null);
 
+	const searchPrams = useSearchParams();
 	const pathname = usePathname();
+	const router = useRouter();
+
+	const [query, setQuery] = useState<string>(searchPrams.get("query") ?? "");
+
+	const handleSearch = useDebouncedCallback((term: string): void => {
+		const prams = new URLSearchParams(searchPrams);
+		prams.set("page", "1");
+		if (term) {
+			prams.set("query", term);
+		} else {
+			prams.delete("query");
+		}
+		if (pathname === "/") router.push(`/?${prams.toString()}#recipeList`);
+	}, 300);
+
+	const handleSubmit = (e: React.FormEvent) => {
+		const prams = new URLSearchParams(searchPrams);
+
+		e.preventDefault();
+		handleSearch(query);
+
+		if (query)
+			router.push(`/?${prams.toString()}#recipeList`, { scroll: false });
+	};
 
 	useEffect(() => {
 		setMenuState(false);
 		setIsSearching(false);
+		setQuery("");
 	}, [pathname]);
 
 	useEffect(() => {
@@ -52,8 +81,8 @@ function Navbar() {
 
 	return (
 		<header className='sticky top-0 lg:top-8 lg:mx-16 z-10'>
-			<div className='h-16 text-background flex flex-row justify-between align-center lg:gap-2'>
-				<div className='px-2 py-0 bg-slate-200/40 backdrop-blur-xs grid place-content-center lg:rounded-3xl'>
+			<div className='h-16 text-background flex flex-row bg-slate-200/40 backdrop-blur-xs lg:bg-transparent lg:backdrop-blur-none justify-between align-center lg:gap-2'>
+				<div className='px-2 py-0 lg:bg-slate-200/40 lg:backdrop-blur-xs grid place-content-center lg:rounded-3xl'>
 					<Link
 						href={"/"}
 						className='flex flex-row gap-2 flex-nowrap items-center justify-center'>
@@ -63,7 +92,7 @@ function Navbar() {
 						</p>
 					</Link>
 				</div>
-				<div className='lg:hidden flex px-2 items-center justify-end flex-grow-1 bg-slate-200/40 backdrop-blur-xs lg:rounded-3xl'>
+				<div className='lg:hidden flex px-2 items-center justify-end flex-grow-1 lg:bg-slate-200/40 lg:backdrop-blur-xs lg:rounded-3xl'>
 					<button
 						onClick={() => setMenuState(!menuState)}
 						className={toggleMenuButton}
@@ -107,22 +136,30 @@ function Navbar() {
 						</ul>
 					</nav>
 					<div className='hidden login:flex flex-row gap-3 items-center'>
-						<div className='h-10 px-3 flex flex-row items-center gap-0 rounded-xl search:border-r-2 search:border-b-3 search:border-l-2 search:border-t-1'>
+						<form
+							onSubmit={handleSubmit}
+							className='h-10 px-3 flex flex-row items-center gap-0 rounded-xl search:border-r-2 search:border-b-3 search:border-l-2 search:border-t-1'>
 							<label htmlFor='search' className='sr-only'>
 								Search:
 							</label>
 							<input
 								className='hidden h-full pb-1 text-lg placeholder:text-lg focus:outline-none search:block'
 								placeholder='Search Recipes ...'
+								onChange={(e) => {
+									setQuery(e.target.value);
+									handleSearch(e.target.value.trim());
+								}}
+								value={query}
 							/>
 							<button
+								type='submit'
 								onClick={() => setIsSearching(!isSearching)}
-								className={`focus:outline-none ${
+								className={`focus:outline-none cursor-pointer ${
 									isSearching ? "scale-125" : ""
 								}`}>
 								<Search />
 							</button>
-						</div>
+						</form>
 						<button className='bg-background text-foreground p-2 rounded-xl'>
 							<Link href={"/login"}>Login</Link>
 						</button>
@@ -136,15 +173,22 @@ function Navbar() {
 					className={`fixed w-full text-background right-0 top-16 bg-slate-50/30 backdrop-blur-sm p-4 rounded-b-sm lg:hidden transition-all duration-300 ease-out ${
 						menuState ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
 					}`}>
-					<div className='h-8 w-1/2 mb-2 border-b-2'>
+					<form
+						onSubmit={handleSubmit}
+						className='h-8 w-1/2 mb-2 border-b-2'>
 						<label htmlFor='search' className='sr-only'>
 							Search:
 						</label>
 						<input
 							className='px-2 py-1 text-sm w-full placeholder:text-sm focus:outline-none block'
 							placeholder='Search Recipes ...'
+							onChange={(e) => {
+								setQuery(e.target.value);
+								handleSearch(e.target.value.trim());
+							}}
+							value={query}
 						/>
-					</div>
+					</form>
 					<nav aria-label='main-nav-mobile'>
 						<ul className='flex flex-col gap-2 justify-center'>
 							<li className='focus:text-slate-800'>
@@ -165,7 +209,8 @@ function Navbar() {
 			)}
 			{/* search bar outside of nav */}
 			{isSearching && (
-				<div
+				<form
+					onSubmit={handleSubmit}
 					className={`h-10 w-sm px-3 m-auto mt-4 hidden lg:max-[1230px]:block rounded-3xl bg-slate-100/30 text-background backdrop-blur-xs border-foreground border-1 transition-all duration-500 ease-out ${
 						isSearching
 							? "max-h-60 opacity-100"
@@ -178,10 +223,95 @@ function Navbar() {
 						autoFocus
 						className='h-full py-1 text-lg placeholder:text-lg focus:outline-none block'
 						placeholder='Search Recipes ...'
+						onChange={(e) => {
+							setQuery(e.target.value);
+							handleSearch(e.target.value.trim());
+						}}
+						value={query}
 					/>
-				</div>
+				</form>
 			)}
 		</header>
+	);
+}
+
+function Navbar() {
+	return (
+		<Suspense
+			fallback={
+				<div className='h-16 text-background flex flex-row bg-slate-200/40 backdrop-blur-xs lg:bg-transparent lg:backdrop-blur-none justify-between align-center lg:gap-2'>
+					<div className='px-2 py-0 lg:bg-slate-200/40 lg:backdrop-blur-xs grid place-content-center lg:rounded-3xl'>
+						<Link
+							href={"/"}
+							className='flex flex-row gap-2 flex-nowrap items-center justify-center'>
+							<CookieIcon className='w-8 h-8' />
+							<p className={`text-3xl ${kurale.className}`}>
+								Cookies
+							</p>
+						</Link>
+					</div>
+					<div className='lg:hidden flex px-2 items-center justify-end flex-grow-1 lg:bg-slate-200/40 lg:backdrop-blur-xs lg:rounded-3xl'>
+						<button>
+							<div className="h-[3px] w-8 px-4 rounded bg-background transition-all duration-500 before:absolute before:h-[3px] before:w-5 before:-translate-x-1 before:-translate-y-2 before:rounded before:bg-background before:transition-all before:duration-500 before:content-[''] after:absolute after:h-[3px] after:w-5 after:-translate-x-4 after:translate-y-2 after:rounded after:bg-background after:transition-all after:duration-500 after:content-['']"></div>
+						</button>
+					</div>
+					<div className='hidden lg:flex px-5 items-center justify-between flex-grow-1 bg-slate-200/40 backdrop-blur-xs lg:rounded-3xl'>
+						<nav aria-label='main-nav-desktop'>
+							<ul className='flex flex-row pl-5 gap-8 justify-center text-lg md:text-2xl'>
+								<li className='focus:text-slate-800'>
+									<Link
+										href={"/"}
+										className="hover:underline hover:text-purple-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
+									after:translate-y-1.5 after:opacity-30">
+										Home
+									</Link>
+								</li>
+								<li>
+									<Link
+										href={"/categories"}
+										className="hover:underline hover:text-green-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 
+									after:translate-y-1.5 after:opacity-30">
+										Categories
+									</Link>
+								</li>
+								<li>
+									<Link
+										href={"/cuisines"}
+										className="hover:underline hover:text-red-500 after:w-0.5 after:content-[''] after:h-4 md:after:h-6 after:bg-background after:absolute after:translate-x-4 after:translate-y-1.5 after:opacity-30">
+										Cuisines
+									</Link>
+								</li>
+								<li>
+									<Link
+										href={"/custimize"}
+										className='hover:underline hover:text-blue-500'>
+										Custimize
+									</Link>
+								</li>
+							</ul>
+						</nav>
+						<div className='hidden login:flex flex-row gap-3 items-center'>
+							<div className='h-10 px-3 flex flex-row items-center gap-0 rounded-xl search:border-r-2 search:border-b-3 search:border-l-2 search:border-t-1'>
+								<label htmlFor='search' className='sr-only'>
+									Search:
+								</label>
+								<input
+									className='hidden h-full pb-1 text-lg placeholder:text-lg focus:outline-none search:block'
+									placeholder='Search Recipes ...'
+								/>
+								<button className='focus:outline-none scale-125'>
+									<Search />
+								</button>
+							</div>
+							<button className='bg-background text-foreground p-2 rounded-xl'>
+								<Link href={"/login"}>Login</Link>
+							</button>
+						</div>
+					</div>
+				</div>
+			}>
+			<NavbarContent />
+		</Suspense>
 	);
 }
 

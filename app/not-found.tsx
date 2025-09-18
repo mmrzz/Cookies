@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function fourOfour() {
+function FourOfour() {
 	return (
 		<main className='flex flex-col w-fit mx-auto p-5 items-center mt-20'>
 			<Image
@@ -9,7 +9,7 @@ function fourOfour() {
 				alt='404 picture'
 				width={200}
 				height={200}
-				className='bg-black rounded-4xl p-3'
+				className='bg-black rounded-3xl p-3'
 			/>
 			<div className='flex flex-row items-center gap-2 flex-nowrap bg-background'>
 				<p className='text-3xl px-2 border-r-2'>404</p>
@@ -18,10 +18,10 @@ function fourOfour() {
 				</p>
 			</div>
 			<Link href={"/"} className='underline text-slate-300 bg-black'>
-				you can go Home
+				go Home
 			</Link>
 		</main>
 	);
 }
 
-export default fourOfour;
+export default FourOfour;
