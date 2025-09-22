@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./UI/components/header";
 import Footer from "./UI/components/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Roboto_Mono } from "next/font/google";
 const roboto = Roboto_Mono({
@@ -25,6 +26,7 @@ export default function RootLayout({
 				<Navbar />
 				{children}
 				<Footer />
+				<SpeedInsights />
 			</body>
 		</html>
 	);
