@@ -16,7 +16,8 @@ export default function Error({
 	}, [error]);
 
 	return (
-		<main className='flex flex-col items-center mt-20'>
+		<main className='flex flex-col items-center pt-20 min-h-[calc(100vh-160px)]'>
+			{/*footer is 96px and header is 64px*/}
 			<Image
 				src='/error/error-white.png'
 				alt='error picture'
@@ -33,7 +34,7 @@ export default function Error({
 				</button>
 			</div>
 			<Link href={"/"} className='underline text-slate-300 bg-black'>
-				you can go Home
+				go back Home
 			</Link>
 		</main>
 	);

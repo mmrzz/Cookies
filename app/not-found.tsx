@@ -3,7 +3,8 @@ import Link from "next/link";
 
 function FourOfour() {
 	return (
-		<main className='flex flex-col w-fit mx-auto p-5 items-center mt-20'>
+		<main className='flex flex-col w-fit mx-auto p-5 items-center pt-20 min-h-[calc(100vh-160px)]'>
+			{/*footer is 96px and header is 64px therefor the 160 px*/}
 			<Image
 				src='/404/404-white.png'
 				alt='404 picture'
@@ -18,7 +19,7 @@ function FourOfour() {
 				</p>
 			</div>
 			<Link href={"/"} className='underline text-slate-300 bg-black'>
-				go Home
+				go back Home
 			</Link>
 		</main>
 	);

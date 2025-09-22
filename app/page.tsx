@@ -1,8 +1,9 @@
 import { Suspense } from "react";
+import { fetchAllMealsParams } from "./lib/data";
 
-import RandomMealHero from "./UI/components/random-meal";
+import DailyMealHero from "./UI/components/recipeDaily";
 import Services from "./UI/components/services";
-import RecipesList from "./UI/components/recipes-list";
+import RecipesList from "./UI/components/recipesList";
 
 async function Home({
 	searchParams,
@@ -15,8 +16,12 @@ async function Home({
 
 	return (
 		<main className='flex flex-col mt-6 lg:mt-14 mx-4 lg:mx-20 items-center'>
-			<RandomMealHero />
-			<Services />
+			{page === 1 && (
+				<>
+					<DailyMealHero />
+					<Services />
+				</>
+			)}
 			<Suspense
 				fallback={
 					<div className='flex flex-col w-2/3 border-t-2 border-b-2 border-white bg-black/80 backdrop-blur-[2px] items-center justify-center py-4 mt-24'>

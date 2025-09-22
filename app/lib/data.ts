@@ -13,15 +13,27 @@ export const fetchMealById = async (id: string) => {
 	}
 };
 
-export const fetchRandomMeal = async () => {
+export const fetchAllMealsParams = async () => {
+	//for generating static props
+	const res = await fetch("https://dummyjson.com/recipes/?limit=50");
+	const recipes: Recipes = await res.json();
+
+	if (!recipes) return [];
+
+	const recipeIds = recipes.recipes.map((recipe) => ({
+		recipeId: recipe.id.toString(),
+	}));
+
+	return recipeIds;
+};
+
+export const fetchDailyMeal = async () => {
 	try {
 		const today = new Date().toISOString().split("T")[0];
 		const seed = [...today].reduce((acc, c) => acc + c.charCodeAt(0), 0);
 		const randomId = (seed % 50) + 1; //this make sures that all users get the same recipe as the recipe of the day
 
-		const res = await fetch(`https://dummyjson.com/recipes/${randomId}`, {
-			cache: "force-cache",
-		});
+		const res = await fetch(`https://dummyjson.com/recipes/${randomId}`);
 
 		const recipe: Recipe = await res.json();
 

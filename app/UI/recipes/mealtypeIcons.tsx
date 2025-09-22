@@ -23,8 +23,6 @@ export default function MealTypeIcon({
 	mealType,
 	className,
 }: MealTypeIconProps) {
-	console.log(mealType);
-
 	const src = icons[mealType] ?? "/mealtypes/inverted/default.png";
 
 	return (
