@@ -2,6 +2,7 @@ import { fetchAllMealsParams, fetchMealById } from "@/app/lib/data";
 import RecipeSoloRender from "../../UI/recipes/recipeSoloRender";
 import ScrollToTop from "@/app/UI/scrollToUp";
 import { Suspense } from "react";
+import { SoloRecipeSkeleton } from "@/app/UI/skeletons";
 
 export async function generateStaticParams() {
 	const recipeIds = await fetchAllMealsParams();
@@ -45,15 +46,16 @@ async function RecipePage({
 	//I don't know why but this page is always is scrolled to the bottom so the scrollToTop component takes care of it
 
 	return (
-		<>
-			<main className='flex flex-col mt-6 lg:mt-14 mx-4 lg:mx-20 mb-4 items-center justify-center min-h-[calc(100vh-160px)]'>
+		<main className='flex flex-col mt-6 lg:mt-14 mx-4 lg:mx-20 mb-4 items-center justify-center min-h-[calc(100vh-160px)]'>
+			<ScrollToTop />
+			<Suspense fallback={<SoloRecipeSkeleton bg='bg-gray-400' />}>
 				<RecipeSoloRender
 					title='Enjoy Cooking!'
 					recipe={recipe}
 					color='random'
 				/>
-			</main>
-		</>
+			</Suspense>
+		</main>
 	);
 }
 

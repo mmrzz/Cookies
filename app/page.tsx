@@ -22,16 +22,8 @@ async function Home({
 					<Services />
 				</>
 			)}
-			<Suspense
-				fallback={
-					<div className='flex flex-col w-2/3 border-t-2 border-b-2 border-white bg-black/80 backdrop-blur-[2px] items-center justify-center py-4 mt-24'>
-						<h2 className='text-2xl font-bold text-center'>
-							please wait ...
-						</h2>
-					</div>
-				}>
-				<RecipesList currentPage={page} query={query} />
-			</Suspense>
+
+			<RecipesList currentPage={page} query={query} />
 		</main>
 	);
 }
