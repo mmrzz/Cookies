@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Recipe } from "../../lib/types";
 
-import MealTypeIcon from "./mealtypeIcons";
+import MealTypeIcon from "../mealtypeIcons";
 import RecipeDetails from "./recipeDetails";
 import RecipeIngrediants from "./recipeIngrediants";
 

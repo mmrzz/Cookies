@@ -46,7 +46,7 @@ async function RecipePage({
 	//I don't know why but this page is always is scrolled to the bottom so the scrollToTop component takes care of it
 
 	return (
-		<main className='flex flex-col mt-6 lg:mt-14 mx-4 lg:mx-20 mb-4 items-center justify-center min-h-[calc(100vh-160px)]'>
+		<main className='flex flex-col mt-6 lg:mt-14 mx-4 lg:mx-20 mb-4 items-center justify-center min-h-[calc(100vh-160px)] lg:min-h-[calc(100vh-232px)]'>
 			<ScrollToTop />
 			<Suspense fallback={<SoloRecipeSkeleton bg='bg-gray-400' />}>
 				<RecipeSoloRender

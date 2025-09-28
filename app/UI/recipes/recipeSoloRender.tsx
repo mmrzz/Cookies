@@ -2,7 +2,7 @@ import Image from "next/image";
 import RecipeDetails from "./recipeDetails";
 import RecipeIngrediants from "./recipeIngrediants";
 import RecipeInstructions from "./recipeInstruction";
-import MealTypeIcon from "./mealtypeIcons";
+import MealTypeIcon from "../mealtypeIcons";
 import { Rochester } from "next/font/google";
 import { Recipe } from "../../lib/types";
 import { Suspense } from "react";
